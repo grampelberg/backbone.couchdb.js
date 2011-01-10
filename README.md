@@ -50,3 +50,9 @@ trick here:
 Note that the couch function can return just about any query parameter. I find
 it especially useful for limiting the collection size and using startKey/endKey.
 
+# TODOs
+
+- Take some time to explain a little more of why this is useful.
+- Do an example of the relationship between documents in the DB and models in
+  the client.
+- Add some couchapp steps to show the setup in couchapp itself.
