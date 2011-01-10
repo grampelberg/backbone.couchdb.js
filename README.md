@@ -57,3 +57,4 @@ it especially useful for limiting the collection size and using startKey/endKey.
   the client.
 - Add some couchapp steps to show the setup in couchapp itself.
 - Show some more view options in the couch() method as examples.
+- Move best practice suggestion for views to a footnote.

@@ -4,7 +4,7 @@
  * Copyright(c) 2011 Thomas Rampelberg
  */
 
-(function() {
+(function($) {
 
   Backbone.couch = {};
   Backbone.couch.options = {
@@ -59,4 +59,4 @@
     var type = 'model' in model ? 'collection' : 'model';
     couch[type][method](model, success, failure);
   };
-})();
+})(jQuery);
