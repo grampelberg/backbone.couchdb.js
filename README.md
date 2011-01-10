@@ -56,3 +56,4 @@ it especially useful for limiting the collection size and using startKey/endKey.
 - Do an example of the relationship between documents in the DB and models in
   the client.
 - Add some couchapp steps to show the setup in couchapp itself.
+- Show some more view options in the couch() method as examples.
