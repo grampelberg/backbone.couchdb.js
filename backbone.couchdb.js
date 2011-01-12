@@ -31,6 +31,10 @@
         });
       },
       'delete': function(model, success, error) {
+        couch._db.removeDoc(model.toJSON(), {
+          success: success,
+          error: error
+        });
       }
     },
     collection: {
