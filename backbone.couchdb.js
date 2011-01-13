@@ -40,8 +40,11 @@
     collection: {
       read: function(model, success, error) {
         var opts = model.couch();
+        if (!('view' in opts))
+          throw new Error("The return of `couch()` must contain the view");
         var query = opts.design || Backbone.couch.options.design + '/' +
           opts.view;
+        delete opts.view;
         couch._db.view(query, _.extend({
           success: function(resp) {
             success(_.map(resp.rows, function(row, k) {
