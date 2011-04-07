@@ -8,11 +8,6 @@ First, you'll need to include some new script tags on your pages:
     <script src="backbone.js"></script>
     <script src="backbone.couchdb.js"></script>
 
-Then, in your app, add a little bit of config:
-
-    Backbone.couch.options.database = 'my_database';
-    Backbone.couch.options.design = 'my_design_document';
-
 ## Models
 
 There's nothing that you'll need to do to make this work with models. The model
@@ -25,9 +20,10 @@ For collections, there's some extra configuration required:
     Backbone.Collection.extend({
         couch: function() {
             return {
-                view: 'my_view'
+                view: 'design/my_view'
             }
-        }
+        },
+        _db: Backbone.couch.db('my_database')
     })
 
 The couch function needs to return options to query the db with. In this
@@ -43,12 +39,26 @@ This ends up saving disk space if you're just using the raw document (as it can
 be fetched with the include_docs query parameter). If you'd like to do this
 trick here:
 
-    { view: 'my_view',
+    { view: 'design/my_view',
       include_docs: 'true'
     }
 
 Note that the couch function can return just about any query parameter. I find
 it especially useful for limiting the collection size and using startKey/endKey.
+
+## Update handlers
+
+It is possible to use an update handler for all model create/updates. Just add
+the handler you'd like to use to the return value of couch():
+
+    Backbone.Collection.extend({
+        couch: function() {
+            return {
+                view: 'design/my_view',
+                update: 'design/my_update'
+            }
+        }
+    })
 
 # TODOs
 

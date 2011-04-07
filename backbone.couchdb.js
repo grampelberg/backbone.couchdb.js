@@ -16,16 +16,32 @@
     _format_row: function(row) {
       _.extend(row, row.value, row.doc);
       if (!row.id && row._id) row.id = row._id;
+
+      // Since we reassigned these, remove them from the object;
       delete row._id;
+      delete row.doc;
+
       if (!row.id) row.id = k;
       return row;
     },
+    _remove: function(opts) {
+      var ignores = [ 'view', 'update' ];
+      _.each(ignores, function(v) {
+        delete opts[v];
+      });
+    },
     model: {
       create: function(_db, model, cb) {
-        _db.saveDoc(model.toJSON(), {
-          success: cb.success,
+        var opts = (model.couch && model.couch()) || {};
+        var method = _.bind(_db.saveDoc, _db);
+        if ('update' in opts)
+          method = _.bind(_db.updateDoc, _db, opts.update);
+
+        couch._remove(opts);
+        method(model.toJSON(), _.extend(opts, {
+          success: function(resp) { cb.success(couch._format_row(resp)); },
           error: cb.error
-        });
+        }));
       },
       update: function(_db, model, cb) {
         this.create(_db, model, cb);
@@ -48,9 +64,8 @@
         var opts = model.couch();
         if (!('view' in opts))
           throw new Error("The return of `couch()` must contain the view");
-        var query = opts.design || Backbone.couch.options.design + '/' +
-          opts.view;
-        delete opts.view;
+        var query = opts.view;
+        couch._remove(opts);
         _db.view(query, _.extend({
           success: function(resp) {
             cb.success(_.map(resp.rows, couch._format_row));
@@ -62,10 +77,11 @@
     sync: function(method, model, cb) {
       // XXX - This is going to be a memory issue unless someone does the
       // extend trick.
-      if (!this._db) this._db = Backbone.couch.db(
+      _db = this._db || (this.collection && this.collection._db);
+      if (!_db) this._db = Backbone.couch.db(
         Backbone.couch.options.database);
       var type = 'model' in model ? 'collection' : 'model';
-      couch[type][method](this._db, model, cb);
+      couch[type][method](_db, model, cb);
     }
   };
 
