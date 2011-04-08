@@ -46,6 +46,32 @@ trick here:
 Note that the couch function can return just about any query parameter. I find
 it especially useful for limiting the collection size and using startKey/endKey.
 
+## _changes
+
+To get the changes feed working, you need to enable it in your model.
+
+    Backbone.Collection.extend({
+        change_feed: true
+    })
+
+This is going to try and add everything on changes to your collection (which
+probably isn't the most desirable thing). To add filtering, so that the
+collection only sees updates for the specific thing it tracks, you can add a
+key to the `couch()` method.
+
+    Backbone.Collection.extend({
+        change_feed: true,
+        couch: function() {
+            return {
+                filter: {
+                    filter: 'design/my_filter',
+                    /* query parameters */
+                    test: 'foobar'
+                }
+            }
+        }
+    })
+
 ## Update handlers
 
 It is possible to use an update handler for all model create/updates. Just add

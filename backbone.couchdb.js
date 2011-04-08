@@ -25,7 +25,7 @@
       return row;
     },
     _remove: function(opts) {
-      var ignores = [ 'view', 'update' ];
+      var ignores = [ 'view', 'update', 'filter' ];
       _.each(ignores, function(v) {
         delete opts[v];
       });
@@ -112,15 +112,24 @@
 
   Backbone.couch.Collection = Backbone.Collection.extend({
     sync: couch.sync,
+    change_feed: false,
     initialize: function() {
       _.bindAll(this, '_init_changes', '_on_change');
-      this._db.info({
-        success: this._init_changes
-      });
+
+      if (this.change_feed)
+        this._db.info({
+          success: this._init_changes
+        });
     },
     _init_changes: function(state) {
       var seq = state.update_seq || 0;
-      this._changes = this._db.changes(seq, { include_docs: true });
+
+      var opts = { include_docs: true };
+      var col_opts = this.couch();
+      if ('filter' in col_opts)
+        _.extend(opts, col_opts.filter);
+
+      this._changes = this._db.changes(seq, opts);
       this._changes.onChange(this._on_change);
     },
     _on_change: function(changes) {
