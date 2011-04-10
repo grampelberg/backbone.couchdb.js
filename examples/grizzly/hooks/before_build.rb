@@ -2,3 +2,4 @@
 plugin 'coffeescript'
 plugin 'jim'
 plugin 'compass'
+plugin 'mustache'

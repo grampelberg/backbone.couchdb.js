@@ -22,7 +22,7 @@
     return encodeURIComponent(docID);
   };
 
-  function prepareUserDoc(user_doc, new_password) {
+  function prepareUserDoc(user_doc, new_password) {    
     if (typeof hex_sha1 == "undefined") {
       alert("creating a user doc requires sha1.js to be loaded in the page");
       return;
@@ -36,7 +36,7 @@
     }
     user_doc.type = "user";
     if (!user_doc.roles) {
-      user_doc.roles = []
+      user_doc.roles = [];
     }
     return user_doc;
   };
@@ -70,7 +70,7 @@
         }
       }
       if (value === null) {
-        req.type = "DELETE";
+        req.type = "DELETE";        
       } else if (value !== undefined) {
         req.type = "PUT";
         req.data = toJSON(value);
@@ -82,13 +82,16 @@
         "An error occurred retrieving/updating the server configuration"
       );
     },
-
+    
     session: function(options) {
       options = options || {};
       $.ajax({
         type: "GET", url: this.urlPrefix + "/_session",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Accept', 'application/json');
+        },
         complete: function(req) {
-          var resp = $.httpData(req, "json");
+          var resp = httpData(req, "json");
           if (req.status == 200) {
             if (options.success) options.success(resp);
           } else if (options.error) {
@@ -109,22 +112,25 @@
       });
     },
 
-    signup: function(user_doc, password, options) {
+    signup: function(user_doc, password, options) {      
       options = options || {};
       // prepare user doc based on name and password
       user_doc = prepareUserDoc(user_doc, password);
       $.couch.userDb(function(db) {
         db.saveDoc(user_doc, options);
-      })
+      });
     },
-
+    
     login: function(options) {
       options = options || {};
       $.ajax({
         type: "POST", url: this.urlPrefix + "/_session", dataType: "json",
         data: {name: options.name, password: options.password},
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Accept', 'application/json');
+        },
         complete: function(req) {
-          var resp = $.httpData(req, "json");
+          var resp = httpData(req, "json");
           if (req.status == 200) {
             if (options.success) options.success(resp);
           } else if (options.error) {
@@ -140,8 +146,11 @@
       $.ajax({
         type: "DELETE", url: this.urlPrefix + "/_session", dataType: "json",
         username : "_", password : "_",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Accept', 'application/json');
+        },
         complete: function(req) {
-          var resp = $.httpData(req, "json");
+          var resp = httpData(req, "json");
           if (req.status == 200) {
             if (options.success) options.success(resp);
           } else if (options.error) {
@@ -167,7 +176,7 @@
             doc._attachments["rev-"+doc._rev.split("-")[0]] = {
               content_type :"application/json",
               data : Base64.encode(rawDocs[doc._id].raw)
-            }
+            };
             return true;
           }
         }
@@ -385,7 +394,7 @@
             dataType: "json", data: toJSON(doc),
             beforeSend : beforeSend,
             complete: function(req) {
-              var resp = $.httpData(req, "json");
+              var resp = httpData(req, "json");
               if (req.status == 200 || req.status == 201 || req.status == 202) {
                 doc._id = resp.id;
                 doc._rev = resp.rev;
@@ -450,7 +459,7 @@
         copyDoc: function(docId, options, ajaxOptions) {
           ajaxOptions = $.extend(ajaxOptions, {
             complete: function(req) {
-              var resp = $.httpData(req, "json");
+              var resp = httpData(req, "json");
               if (req.status == 201) {
                 if (options.success) options.success(resp);
               } else if (options.error) {
@@ -539,7 +548,7 @@
 
         setDbProperty: function(propName, propValue, options, ajaxOptions) {
           ajax({
-            type: "PUT",
+            type: "PUT", 
             url: this.uri + propName + encodeOptions(options),
             data : JSON.stringify(propValue)
           },
@@ -551,7 +560,7 @@
       };
     },
 
-    encodeDocId: encodeDocId,
+    encodeDocId: encodeDocId, 
 
     info: function(options) {
       ajax(
@@ -583,7 +592,7 @@
       if (!uuidCache.length) {
         ajax({url: this.urlPrefix + "/_uuids", data: {count: cacheNum}, async: false}, {
             success: function(resp) {
-              uuidCache = resp.uuids
+              uuidCache = resp.uuids;
             }
           },
           "Failed to retrieve UUID batch."
@@ -592,6 +601,27 @@
       return uuidCache.shift();
     }
   });
+
+  var httpData = $.httpData || function( xhr, type, s ) { // lifted from jq1.4.4
+    var ct = xhr.getResponseHeader("content-type") || "",
+      xml = type === "xml" || !type && ct.indexOf("xml") >= 0,
+      data = xml ? xhr.responseXML : xhr.responseText;
+
+    if ( xml && data.documentElement.nodeName === "parsererror" ) {
+      $.error( "parsererror" );
+    }
+    if ( s && s.dataFilter ) {
+      data = s.dataFilter( data, type );
+    }
+    if ( typeof data === "string" ) {
+      if ( type === "json" || !type && ct.indexOf("json") >= 0 ) {
+        data = $.parseJSON( data );
+      } else if ( type === "script" || !type && ct.indexOf("javascript") >= 0 ) {
+        $.globalEval( data );
+      }
+    }
+    return data;
+  };
 
   function ajax(obj, options, errorMessage, ajaxOptions) {
     options = $.extend({successStatus: 200}, options);
@@ -608,7 +638,7 @@
       },
       complete: function(req) {
         try {
-          var resp = $.httpData(req, "json");
+          var resp = httpData(req, "json");
         } catch(e) {
           if (options.error) {
             options.error(req.status, req, e);
@@ -638,6 +668,7 @@
       var commit = options.ensure_full_commit;
       delete options.ensure_full_commit;
       return function(xhr) {
+        xhr.setRequestHeader('Accept', 'application/json');
         xhr.setRequestHeader("X-Couch-Full-Commit", commit.toString());
       };
     }

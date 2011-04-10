@@ -5,10 +5,12 @@
   "bundles": {
     "default": [
       "sha1",
-      [ "jquery", "1.4.2" ],
-      [ "jquery.couch", "0.11" ],
-      [ "sammy", "0.6.3" ],
-      [ "sammy.couch", "0.1.0" ],
+      [ "jquery", "1.5" ],
+      "jquery.couch",
+      [ "underscore", "1.1.5"],
+      "backbone",
+      "backbone.couchdb",
+      "handlebars",
       "js/app"
     ]
   }
