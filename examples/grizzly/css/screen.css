@@ -503,28 +503,23 @@ form.bp textarea {
   height: 250px;
 }
 
-/* line 53, ../sass/screen.scss */
-body.two-col {
-  background-color: #D7CBB7;
-}
-/* line 57, ../sass/screen.scss */
+/* line 56, ../sass/screen.scss */
 body.two-col #container {
   width: 950px;
   margin: 0 auto;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 61, ../sass/screen.scss */
+/* line 60, ../sass/screen.scss */
 body.two-col header {
   height: 50px;
 }
-/* line 64, ../sass/screen.scss */
+/* line 63, ../sass/screen.scss */
 body.two-col #header {
   display: inline;
   float: left;
   margin-right: 10px;
   width: 950px;
-  background-color: #B41028;
   height: 50px;
   border-bottom: 2px solid #999;
 }
@@ -532,19 +527,18 @@ body.two-col #header {
 * html body.two-col #header {
   overflow-x: hidden;
 }
-/* line 71, ../sass/screen.scss */
+/* line 69, ../sass/screen.scss */
 body.two-col #header h1 {
   color: #f2f2f2;
   font: normal 33px "Geo", sans;
   margin: 8.5px 10px;
   font-weight: bold;
 }
-/* line 79, ../sass/screen.scss */
+/* line 77, ../sass/screen.scss */
 body.two-col #main {
-  background-color: #f19570;
   height: 302px;
 }
-/* line 83, ../sass/screen.scss */
+/* line 80, ../sass/screen.scss */
 body.two-col #main div {
   display: inline;
   float: left;
@@ -555,21 +549,21 @@ body.two-col #main div {
 * html body.two-col #main div {
   overflow-x: hidden;
 }
-/* line 86, ../sass/screen.scss */
+/* line 83, ../sass/screen.scss */
 body.two-col #main div:last-child {
   margin-right: 0;
 }
-/* line 91, ../sass/screen.scss */
+/* line 88, ../sass/screen.scss */
 body.two-col #main h2, body.two-col #main h3 {
   margin: 10px 0 0 25px;
 }
-/* line 95, ../sass/screen.scss */
+/* line 92, ../sass/screen.scss */
 body.two-col #main h2 {
   font-size: 35px;
   line-height: 32px;
   font-weight: bold;
 }
-/* line 101, ../sass/screen.scss */
+/* line 98, ../sass/screen.scss */
 body.two-col #footer {
   margin: 0;
   padding: 0;
@@ -587,7 +581,7 @@ body.two-col #footer li {
   display: inline;
   float: left;
 }
-/* line 104, ../sass/screen.scss */
+/* line 101, ../sass/screen.scss */
 body.two-col #footer li {
   display: inline;
   float: left;

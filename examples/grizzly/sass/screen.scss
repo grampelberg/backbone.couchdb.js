@@ -53,7 +53,6 @@ form.bp {
 body.two-col {
 
   // @include showgrid("/images/grid.png");
-  background-color: #D7CBB7;
   #container {
     @include container; 
 
@@ -62,8 +61,7 @@ body.two-col {
     height: 50px;
   }
   #header {
-    @include column($blueprint-grid-columns); 
-    background-color: #B41028;
+    @include column($blueprint-grid-columns);
     $height: 50px;
     height: $height;
     border-bottom: 2px solid #999;
@@ -77,7 +75,6 @@ body.two-col {
     }
   }
   #main {
-    background-color: lighten(#ea622a, 15%);
     height: 302px;
 
     div {

@@ -1,10 +1,10 @@
 {
   "env": {
     "default": {
-      "db": "http://owndragenterfaseverwhati:5SqEc2AWEBofxdivFRScdCSc@saunter.cloudant.com/backbone"
+      "db": "http://localhost:5984/backbone"
     },
     "production": {
-      "db": "http://admin:admin@localhost:5984/test"
+      "db": "http://owndragenterfaseverwhati:5SqEc2AWEBofxdivFRScdCSc@saunter.cloudant.com/backbone"
     }
   }
 }
