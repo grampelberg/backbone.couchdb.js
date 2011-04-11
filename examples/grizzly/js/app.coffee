@@ -34,14 +34,31 @@ BaseView._template_cache = {}
 class ArticleView extends BaseView
 
   tagName: "li"
+  className: "display"
   template: "article"
   events:
-    "click button": "remove_post"
+    "click .del": "remove_post"
+    "click .edit": "allow_update"
+    "click .save": "save_update"
+
+  initialize: () =>
+    @model.bind("change:body", @update_post)
 
   remove_post: () =>
-    console.log @model
     @model.destroy()
     @remove()
+
+  allow_update: () =>
+    $(@el).removeClass("display").addClass("edit")
+    @$("textarea").val(@$("p").text())
+
+  save_update: () =>
+    $(@el).removeClass("edit").addClass("display")
+    @model.set({ body: @$("textarea").val() })
+    @model.save()
+
+  update_post: () =>
+    @$("p").text(@model.get("body"))
 
 class Articles extends Backbone.View
 
