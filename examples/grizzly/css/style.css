@@ -1,0 +1,51 @@
+/*
+Syntax error: Undefined mixin 'html5-boilerplate-reset'.
+        on line 13 of /Users/trampelb/code/backbone.couchdb.js/examples/grizzly/sass/style.scss, in `html5-boilerplate-reset'
+        from line 13 of /Users/trampelb/code/backbone.couchdb.js/examples/grizzly/sass/style.scss
+
+Backtrace:
+/Users/trampelb/code/backbone.couchdb.js/examples/grizzly/sass/style.scss:13:in `html5-boilerplate-reset'
+/Users/trampelb/code/backbone.couchdb.js/examples/grizzly/sass/style.scss:13
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/mixin_node.rb:62:in `perform!'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/node.rb:305:in `_perform'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/node.rb:213:in `perform'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `block in perform_children'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `map'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `perform_children'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/node.rb:317:in `perform!'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/root_node.rb:59:in `perform!'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/node.rb:305:in `_perform'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/node.rb:213:in `perform'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/root_node.rb:37:in `perform'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/tree/root_node.rb:29:in `render'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/engine.rb:197:in `_render'
+/usr/local/Cellar/gems/1.9/gems/haml-3.0.25/lib/sass/engine.rb:168:in `render'
+/usr/local/Cellar/gems/1.9/gems/compass-0.10.6/lib/compass/compiler.rb:103:in `block in compile'
+/usr/local/Cellar/gems/1.9/gems/compass-0.10.6/lib/compass/logger.rb:43:in `red'
+/usr/local/Cellar/gems/1.9/gems/compass-0.10.6/lib/compass/compiler.rb:102:in `compile'
+/usr/local/Cellar/gems/1.9/gems/compass-0.10.6/lib/compass/compiler.rb:93:in `compile_if_required'
+/usr/local/Cellar/gems/1.9/gems/compass-0.10.6/lib/compass/compiler.rb:84:in `block in run'
+/usr/local/Cellar/gems/1.9/gems/compass-0.10.6/lib/compass/compiler.rb:82:in `each'
+/usr/local/Cellar/gems/1.9/gems/compass-0.10.6/lib/compass/compiler.rb:82:in `run'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/plugins/compass.rb:20:in `run'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/pusher.rb:124:in `plugin'
+(eval):4:in `block in run_hook_file!'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/pusher.rb:115:in `instance_eval'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/pusher.rb:115:in `block in run_hook_file!'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/pusher.rb:114:in `chdir'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/pusher.rb:114:in `run_hook_file!'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/pusher.rb:33:in `build'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/pusher.rb:83:in `push!'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/lib/soca/cli.rb:111:in `push'
+/usr/local/Cellar/gems/1.9/gems/thor-0.14.6/lib/thor/task.rb:22:in `run'
+/usr/local/Cellar/gems/1.9/gems/thor-0.14.6/lib/thor/invocation.rb:118:in `invoke_task'
+/usr/local/Cellar/gems/1.9/gems/thor-0.14.6/lib/thor.rb:263:in `dispatch'
+/usr/local/Cellar/gems/1.9/gems/thor-0.14.6/lib/thor/base.rb:389:in `start'
+/usr/local/Cellar/gems/1.9/gems/soca-0.2.0/bin/soca:5:in `<top (required)>'
+/usr/local/bin/soca:19:in `load'
+/usr/local/bin/soca:19:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined mixin 'html5-boilerplate-reset'.\A         on line 13 of /Users/trampelb/code/backbone.couchdb.js/examples/grizzly/sass/style.scss, in `html5-boilerplate-reset'\A         from line 13 of /Users/trampelb/code/backbone.couchdb.js/examples/grizzly/sass/style.scss"; }

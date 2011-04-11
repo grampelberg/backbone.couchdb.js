@@ -1,0 +1,17 @@
+{
+  "bundle_dir": "js",
+  "compressed_suffix": ".min",
+  "vendor_dir": "js/vendor",
+  "bundles": {
+    "default": [
+      "sha1",
+      [ "jquery", "1.5" ],
+      "jquery.couch",
+      [ "underscore", "1.1.5"],
+      "backbone",
+      "backbone.couchdb",
+      "handlebars",
+      "js/app"
+    ]
+  }
+}
