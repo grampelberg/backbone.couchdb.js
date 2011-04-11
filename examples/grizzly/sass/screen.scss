@@ -52,7 +52,6 @@ form.bp {
 // IDs:
 body.two-col {
 
-  @include showgrid("images/grid.png");
   #container {
     @include container; 
 

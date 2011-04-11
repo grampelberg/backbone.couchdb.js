@@ -503,22 +503,18 @@ form.bp textarea {
   height: 250px;
 }
 
-/* line 53, ../sass/screen.scss */
-body.two-col {
-  background: url('/images/grid.png');
-}
-/* line 56, ../sass/screen.scss */
+/* line 55, ../sass/screen.scss */
 body.two-col #container {
   width: 950px;
   margin: 0 auto;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 60, ../sass/screen.scss */
+/* line 59, ../sass/screen.scss */
 body.two-col header {
   height: 50px;
 }
-/* line 63, ../sass/screen.scss */
+/* line 62, ../sass/screen.scss */
 body.two-col #header {
   display: inline;
   float: left;
@@ -531,18 +527,18 @@ body.two-col #header {
 * html body.two-col #header {
   overflow-x: hidden;
 }
-/* line 69, ../sass/screen.scss */
+/* line 68, ../sass/screen.scss */
 body.two-col #header h1 {
   color: #f2f2f2;
   font: normal 33px "Geo", sans;
   margin: 8.5px 10px;
   font-weight: bold;
 }
-/* line 77, ../sass/screen.scss */
+/* line 76, ../sass/screen.scss */
 body.two-col #main {
   height: 302px;
 }
-/* line 80, ../sass/screen.scss */
+/* line 79, ../sass/screen.scss */
 body.two-col #main div {
   display: inline;
   float: left;
@@ -553,29 +549,29 @@ body.two-col #main div {
 * html body.two-col #main div {
   overflow-x: hidden;
 }
-/* line 83, ../sass/screen.scss */
+/* line 82, ../sass/screen.scss */
 body.two-col #main div:last-child {
   margin-right: 0;
 }
-/* line 88, ../sass/screen.scss */
+/* line 87, ../sass/screen.scss */
 body.two-col #main h2, body.two-col #main h3 {
   margin: 10px 0 0 25px;
 }
-/* line 92, ../sass/screen.scss */
+/* line 91, ../sass/screen.scss */
 body.two-col #main h2 {
   font-size: 35px;
   line-height: 32px;
   font-weight: bold;
 }
-/* line 100, ../sass/screen.scss */
+/* line 99, ../sass/screen.scss */
 body.two-col #main .article_list .display .save, body.two-col #main .article_list .display textarea {
   display: none;
 }
-/* line 104, ../sass/screen.scss */
+/* line 103, ../sass/screen.scss */
 body.two-col #main .article_list .edit p, body.two-col #main .article_list .edit .del, body.two-col #main .article_list .edit .edit {
   display: none;
 }
-/* line 108, ../sass/screen.scss */
+/* line 107, ../sass/screen.scss */
 body.two-col #footer {
   margin: 0;
   padding: 0;
@@ -593,7 +589,7 @@ body.two-col #footer li {
   display: inline;
   float: left;
 }
-/* line 111, ../sass/screen.scss */
+/* line 110, ../sass/screen.scss */
 body.two-col #footer li {
   display: inline;
   float: left;
