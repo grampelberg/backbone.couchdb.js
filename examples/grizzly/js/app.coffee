@@ -44,10 +44,13 @@ class ArticleView extends BaseView
 
   initialize: () =>
     @model.bind("change:body", @update_post)
+    @model.bind("remove", @_remove)
+
+  _remove: () =>
+    @remove()
 
   remove_post: () =>
     @model.destroy()
-    @remove()
 
   allow_update: () =>
     $(@el).removeClass("display").addClass("edit")

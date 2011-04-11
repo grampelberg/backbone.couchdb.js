@@ -11117,12 +11117,15 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
       var _this = this;
       _.each(changes.results, function(res) {
         var client_model = _this.get(res.id);
+
         if (client_model) {
+          if (res.deleted) return _this.remove(client_model);
           if (client_model.get('_rev') == res.doc._rev) return
 
           return client_model.set(res.doc);
         }
 
+        if (res.deleted) return
         _this.add(couch._format_row(res));
       });
     }
@@ -12878,6 +12881,7 @@ Handlebars.compile = Handlebars.VM.compile;;
       this.save_update = __bind(this.save_update, this);;
       this.allow_update = __bind(this.allow_update, this);;
       this.remove_post = __bind(this.remove_post, this);;
+      this._remove = __bind(this._remove, this);;
       this.initialize = __bind(this.initialize, this);;      ArticleView.__super__.constructor.apply(this, arguments);
     }
     __extends(ArticleView, BaseView);
@@ -12890,11 +12894,14 @@ Handlebars.compile = Handlebars.VM.compile;;
       "click .save": "save_update"
     };
     ArticleView.prototype.initialize = function() {
-      return this.model.bind("change:body", this.update_post);
+      this.model.bind("change:body", this.update_post);
+      return this.model.bind("remove", this._remove);
+    };
+    ArticleView.prototype._remove = function() {
+      return this.remove();
     };
     ArticleView.prototype.remove_post = function() {
-      this.model.destroy();
-      return this.remove();
+      return this.model.destroy();
     };
     ArticleView.prototype.allow_update = function() {
       $(this.el).removeClass("display").addClass("edit");
