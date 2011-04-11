@@ -26,6 +26,7 @@
     __extends(ArticleList, Backbone.couch.Collection);
     ArticleList.prototype.model = Article;
     ArticleList.prototype._db = Backbone.couch.db('backbone');
+    ArticleList.prototype.change_feed = true;
     ArticleList.prototype.couch = function() {
       return {
         view: 'grizzly/type',

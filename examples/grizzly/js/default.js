@@ -11013,7 +11013,6 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
           method = _.bind(_db.updateDoc, _db, opts.update);
 
         couch._remove(opts);
-        console.log(model.toJSON())
         method(model.toJSON(), _.extend(opts, {
           success: function(resp) {
             cb.success({
@@ -11118,9 +11117,11 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
       var _this = this;
       _.each(changes.results, function(res) {
         var client_model = _this.get(res.id);
+        if (client_model) {
+          if (client_model.get('_rev') == res.doc._rev) return
 
-        // XXX - For now, ignore docs that exist locally
-        if (client_model) return
+          return client_model.set(res.doc);
+        }
 
         _this.add(couch._format_row(res));
       });
@@ -12836,6 +12837,7 @@ Handlebars.compile = Handlebars.VM.compile;;
     __extends(ArticleList, Backbone.couch.Collection);
     ArticleList.prototype.model = Article;
     ArticleList.prototype._db = Backbone.couch.db('backbone');
+    ArticleList.prototype.change_feed = true;
     ArticleList.prototype.couch = function() {
       return {
         view: 'grizzly/type',
