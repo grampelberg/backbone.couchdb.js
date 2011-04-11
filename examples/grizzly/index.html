@@ -28,15 +28,17 @@
       <div id="main">
         <textarea></textarea>
         <button class="create">Submit</button>
-        <ul></ul>
+        <ul class="article_list"></ul>
       </div>
       <footer></footer>
     </div>
   </body>
   <script src="js/default.js"></script>
   <script id="article" type="text/handlebars" data-engine="handlebars">
-    <div>{{ body }}</div>
-
-    <button>Delete</button>
+    <p>{{ body }}</p>
+    <textarea></textarea>
+    <button class="del">Delete</button>
+    <button class="edit">Edit</button>
+    <button class="save">Save</button>
   </script>
 </html>

@@ -10990,13 +10990,13 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
   var couch = {
     _format_row: function(row) {
       _.extend(row, row.value ? { value: row.value } : {}, row.doc);
-      if (!row.id && row._id) row.id = row._id;
+      // if (!row.id && row._id) row.id = row._id;
 
       // Since we reassigned these, remove them from the object;
-      delete row._id;
+      // delete row._id;
       delete row.doc;
 
-      if (!row.id) row.id = k;
+      // if (!row.id) row.id = k;
       return row;
     },
     _remove: function(opts) {
@@ -11013,8 +11013,14 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
           method = _.bind(_db.updateDoc, _db, opts.update);
 
         couch._remove(opts);
+        console.log(model.toJSON())
         method(model.toJSON(), _.extend(opts, {
-          success: function(resp) { cb.success(couch._format_row(resp)); },
+          success: function(resp) {
+            cb.success({
+              _id: resp.id,
+              _rev: resp.rev
+            });
+          },
           error: cb.error
         }));
       },
@@ -11082,7 +11088,8 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
   };
 
   Backbone.couch.Model = Backbone.Model.extend({
-    sync: couch.sync
+    sync: couch.sync,
+    idAttribute: '_id'
   });
 
   Backbone.couch.Collection = Backbone.Collection.extend({
@@ -12865,18 +12872,41 @@ Handlebars.compile = Handlebars.VM.compile;;
   BaseView._template_cache = {};
   ArticleView = (function() {
     function ArticleView() {
-      this.remove_post = __bind(this.remove_post, this);;      ArticleView.__super__.constructor.apply(this, arguments);
+      this.update_post = __bind(this.update_post, this);;
+      this.save_update = __bind(this.save_update, this);;
+      this.allow_update = __bind(this.allow_update, this);;
+      this.remove_post = __bind(this.remove_post, this);;
+      this.initialize = __bind(this.initialize, this);;      ArticleView.__super__.constructor.apply(this, arguments);
     }
     __extends(ArticleView, BaseView);
     ArticleView.prototype.tagName = "li";
+    ArticleView.prototype.className = "display";
     ArticleView.prototype.template = "article";
     ArticleView.prototype.events = {
-      "click button": "remove_post"
+      "click .del": "remove_post",
+      "click .edit": "allow_update",
+      "click .save": "save_update"
+    };
+    ArticleView.prototype.initialize = function() {
+      return this.model.bind("change:body", this.update_post);
     };
     ArticleView.prototype.remove_post = function() {
-      console.log(this.model);
       this.model.destroy();
       return this.remove();
+    };
+    ArticleView.prototype.allow_update = function() {
+      $(this.el).removeClass("display").addClass("edit");
+      return this.$("textarea").val(this.$("p").text());
+    };
+    ArticleView.prototype.save_update = function() {
+      $(this.el).removeClass("edit").addClass("display");
+      this.model.set({
+        body: this.$("textarea").val()
+      });
+      return this.model.save();
+    };
+    ArticleView.prototype.update_post = function() {
+      return this.$("p").text(this.model.get("body"));
     };
     return ArticleView;
   })();

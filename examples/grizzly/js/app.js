@@ -62,18 +62,41 @@
   BaseView._template_cache = {};
   ArticleView = (function() {
     function ArticleView() {
-      this.remove_post = __bind(this.remove_post, this);;      ArticleView.__super__.constructor.apply(this, arguments);
+      this.update_post = __bind(this.update_post, this);;
+      this.save_update = __bind(this.save_update, this);;
+      this.allow_update = __bind(this.allow_update, this);;
+      this.remove_post = __bind(this.remove_post, this);;
+      this.initialize = __bind(this.initialize, this);;      ArticleView.__super__.constructor.apply(this, arguments);
     }
     __extends(ArticleView, BaseView);
     ArticleView.prototype.tagName = "li";
+    ArticleView.prototype.className = "display";
     ArticleView.prototype.template = "article";
     ArticleView.prototype.events = {
-      "click button": "remove_post"
+      "click .del": "remove_post",
+      "click .edit": "allow_update",
+      "click .save": "save_update"
+    };
+    ArticleView.prototype.initialize = function() {
+      return this.model.bind("change:body", this.update_post);
     };
     ArticleView.prototype.remove_post = function() {
-      console.log(this.model);
       this.model.destroy();
       return this.remove();
+    };
+    ArticleView.prototype.allow_update = function() {
+      $(this.el).removeClass("display").addClass("edit");
+      return this.$("textarea").val(this.$("p").text());
+    };
+    ArticleView.prototype.save_update = function() {
+      $(this.el).removeClass("edit").addClass("display");
+      this.model.set({
+        body: this.$("textarea").val()
+      });
+      return this.model.save();
+    };
+    ArticleView.prototype.update_post = function() {
+      return this.$("p").text(this.model.get("body"));
     };
     return ArticleView;
   })();

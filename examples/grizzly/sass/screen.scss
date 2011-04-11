@@ -52,7 +52,7 @@ form.bp {
 // IDs:
 body.two-col {
 
-  // @include showgrid("/images/grid.png");
+  @include showgrid("images/grid.png");
   #container {
     @include container; 
 
@@ -93,6 +93,16 @@ body.two-col {
       font-size: 35px;
       line-height: 32px;
       font-weight: bold;
+    }
+
+    .article_list {
+       .display {
+          .save, textarea { display: none }
+       }
+
+       .edit {
+          p, .del, .edit { display: none }
+       }
     }
   }
   #footer {

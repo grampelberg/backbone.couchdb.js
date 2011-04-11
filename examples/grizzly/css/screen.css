@@ -503,6 +503,10 @@ form.bp textarea {
   height: 250px;
 }
 
+/* line 53, ../sass/screen.scss */
+body.two-col {
+  background: url('/images/grid.png');
+}
 /* line 56, ../sass/screen.scss */
 body.two-col #container {
   width: 950px;
@@ -563,7 +567,15 @@ body.two-col #main h2 {
   line-height: 32px;
   font-weight: bold;
 }
-/* line 98, ../sass/screen.scss */
+/* line 100, ../sass/screen.scss */
+body.two-col #main .article_list .display .save, body.two-col #main .article_list .display textarea {
+  display: none;
+}
+/* line 104, ../sass/screen.scss */
+body.two-col #main .article_list .edit p, body.two-col #main .article_list .edit .del, body.two-col #main .article_list .edit .edit {
+  display: none;
+}
+/* line 108, ../sass/screen.scss */
 body.two-col #footer {
   margin: 0;
   padding: 0;
@@ -581,7 +593,7 @@ body.two-col #footer li {
   display: inline;
   float: left;
 }
-/* line 101, ../sass/screen.scss */
+/* line 111, ../sass/screen.scss */
 body.two-col #footer li {
   display: inline;
   float: left;
