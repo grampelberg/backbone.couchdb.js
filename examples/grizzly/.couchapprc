@@ -1,0 +1,10 @@
+{
+  "env": {
+    "default": {
+      "db": "http://localhost:5984/backbone"
+    },
+    "production": {
+      "db": "http://owndragenterfaseverwhati:5SqEc2AWEBofxdivFRScdCSc@saunter.cloudant.com/backbone"
+    }
+  }
+}
