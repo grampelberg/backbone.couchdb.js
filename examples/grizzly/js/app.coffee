@@ -10,6 +10,7 @@ class ArticleList extends Backbone.couch.Collection
 
   model: Article
   _db: Backbone.couch.db 'backbone'
+  change_feed: true
   couch: () ->
     view: 'grizzly/type'
     key: 'article'
