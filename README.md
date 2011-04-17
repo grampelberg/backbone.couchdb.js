@@ -17,7 +17,7 @@ id is going to be used to fetch/save the model and it will just work.
 
 For collections, there's some extra configuration required:
 
-    Backbone.Collection.extend({
+    Backbone.couch.Collection.extend({
         couch: function() {
             return {
                 view: 'design/my_view'
@@ -50,7 +50,7 @@ it especially useful for limiting the collection size and using startKey/endKey.
 
 To get the changes feed working, you need to enable it in your model.
 
-    Backbone.Collection.extend({
+    Backbone.couch.Collection.extend({
         change_feed: true
     })
 
@@ -59,7 +59,7 @@ probably isn't the most desirable thing). To add filtering, so that the
 collection only sees updates for the specific thing it tracks, you can add a
 key to the `couch()` method.
 
-    Backbone.Collection.extend({
+    Backbone.couch.Collection.extend({
         change_feed: true,
         couch: function() {
             return {
@@ -77,7 +77,7 @@ key to the `couch()` method.
 It is possible to use an update handler for all model create/updates. Just add
 the handler you'd like to use to the return value of couch():
 
-    Backbone.Collection.extend({
+    Backbone.couch.Collection.extend({
         couch: function() {
             return {
                 view: 'design/my_view',
