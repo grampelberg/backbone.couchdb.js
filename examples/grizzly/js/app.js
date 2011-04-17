@@ -21,7 +21,7 @@
   })();
   ArticleList = (function() {
     function ArticleList() {
-      ArticleList.__super__.constructor.apply(this, arguments);
+      this.couch = __bind(this.couch, this);;      ArticleList.__super__.constructor.apply(this, arguments);
     }
     __extends(ArticleList, Backbone.couch.Collection);
     ArticleList.prototype.model = Article;
@@ -31,6 +31,10 @@
       return {
         view: 'grizzly/type',
         key: 'article',
+        filter: {
+          filter: 'grizzly/article',
+          channel: this.id
+        },
         include_docs: true
       };
     };

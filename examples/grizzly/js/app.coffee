@@ -11,9 +11,12 @@ class ArticleList extends Backbone.couch.Collection
   model: Article
   _db: Backbone.couch.db 'backbone'
   change_feed: true
-  couch: () ->
+  couch: () =>
     view: 'grizzly/type'
     key: 'article'
+    filter:
+      filter: 'grizzly/article'
+      channel: @id
     include_docs: true
 
 class Channel extends Backbone.couch.Model
