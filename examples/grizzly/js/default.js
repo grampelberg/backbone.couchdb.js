@@ -10999,9 +10999,9 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
       // if (!row.id) row.id = k;
       return row;
     },
+    _ignores: [ 'view', 'update', 'filter' ],
     _remove: function(opts) {
-      var ignores = [ 'view', 'update', 'filter' ];
-      _.each(ignores, function(v) {
+      _.each(couch._ignores, function(v) {
         delete opts[v];
       });
     },
@@ -11015,10 +11015,10 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
         couch._remove(opts);
         method(model.toJSON(), _.extend(opts, {
           success: function(resp) {
-            cb.success({
+            cb.success(_.extend({
               _id: resp.id,
               _rev: resp.rev
-            });
+            }, resp.doc));
           },
           error: cb.error
         }));
@@ -11085,6 +11085,8 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
     $.couch.urlPrefix = old_prefix;
     return ret
   };
+
+  Backbone.couch.sync = couch.sync;
 
   Backbone.couch.Model = Backbone.Model.extend({
     sync: couch.sync,
@@ -12835,7 +12837,7 @@ Handlebars.compile = Handlebars.VM.compile;;
   })();
   ArticleList = (function() {
     function ArticleList() {
-      ArticleList.__super__.constructor.apply(this, arguments);
+      this.couch = __bind(this.couch, this);;      ArticleList.__super__.constructor.apply(this, arguments);
     }
     __extends(ArticleList, Backbone.couch.Collection);
     ArticleList.prototype.model = Article;
@@ -12845,6 +12847,10 @@ Handlebars.compile = Handlebars.VM.compile;;
       return {
         view: 'grizzly/type',
         key: 'article',
+        filter: {
+          filter: 'grizzly/article',
+          channel: this.id
+        },
         include_docs: true
       };
     };
