@@ -11,9 +11,28 @@ class ArticleList extends Backbone.couch.Collection
   model: Article
   _db: Backbone.couch.db 'backbone'
   change_feed: true
-  couch: () ->
+  couch: () =>
     view: 'grizzly/type'
     key: 'article'
+    filter:
+      filter: 'grizzly/article'
+      channel: @id
+    include_docs: true
+
+class Channel extends Backbone.couch.Model
+
+  _db: Backbone.couch.db 'backbone'
+  defaults:
+    type: 'channel'
+
+class ChannelList extends Backbone.couch.Collection
+
+  model: Channel
+  _db: Backbone.couch.db 'backbone'
+  change_feed: true
+  couch: () ->
+    view: 'grizzly/type'
+    key: 'channel'
     include_docs: true
 
 class BaseView extends Backbone.View
@@ -64,14 +83,12 @@ class ArticleView extends BaseView
   update_post: () =>
     @$("p").text(@model.get("body"))
 
-class Articles extends Backbone.View
+class BaseContainer extends BaseView
 
-  el: $("#main")
   events:
     "click .create": "create_article"
-
   initialize: () ->
-    @col = new ArticleList
+    @col = new @collection
     @col.bind('refresh', @refresh)
     @col.bind('add', @add)
     @col.fetch()
@@ -80,15 +97,43 @@ class Articles extends Backbone.View
     @col.each(@add)
 
   add: (model) =>
-    view = new ArticleView
+    view = new @item_view
       model: model
     @$("ul").append view.render().el
 
   create_article: () =>
-    model = new Article
-      body: @$("textarea").val()
+    model = new @col.model
+      body: @$(@input).val()
     model.save()
 
     @col.add model
 
-new Articles
+class Articles extends BaseContainer
+
+  template: "article_list"
+  collection: ArticleList
+  item_view: ArticleView
+  input: "textarea"
+
+class ChannelView extends BaseView
+
+  tagName: "li"
+  className: "display"
+  template: "channel"
+
+class Channels extends BaseContainer
+
+  template: "channel_list"
+  collection: ChannelList
+  item_view: ChannelView
+  input: "input[type=text]"
+
+class App extends Backbone.View
+  el: $("#main")
+  initialize: () ->
+    @$(".channels").html (new Channels).render().el
+    @$(".articles").html (new Articles).render().el
+
+$(document).ready(->
+  new App
+  )

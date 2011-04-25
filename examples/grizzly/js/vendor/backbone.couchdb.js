@@ -24,9 +24,9 @@
       // if (!row.id) row.id = k;
       return row;
     },
+    _ignores: [ 'view', 'update', 'filter' ],
     _remove: function(opts) {
-      var ignores = [ 'view', 'update', 'filter' ];
-      _.each(ignores, function(v) {
+      _.each(couch._ignores, function(v) {
         delete opts[v];
       });
     },
@@ -40,10 +40,10 @@
         couch._remove(opts);
         method(model.toJSON(), _.extend(opts, {
           success: function(resp) {
-            cb.success({
+            cb.success(_.extend({
               _id: resp.id,
               _rev: resp.rev
-            });
+            }, resp.doc));
           },
           error: cb.error
         }));
@@ -110,6 +110,8 @@
     $.couch.urlPrefix = old_prefix;
     return ret
   };
+
+  Backbone.couch.sync = couch.sync;
 
   Backbone.couch.Model = Backbone.Model.extend({
     sync: couch.sync,

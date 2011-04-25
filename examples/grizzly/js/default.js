@@ -10999,9 +10999,9 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
       // if (!row.id) row.id = k;
       return row;
     },
+    _ignores: [ 'view', 'update', 'filter' ],
     _remove: function(opts) {
-      var ignores = [ 'view', 'update', 'filter' ];
-      _.each(ignores, function(v) {
+      _.each(couch._ignores, function(v) {
         delete opts[v];
       });
     },
@@ -11015,10 +11015,10 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
         couch._remove(opts);
         method(model.toJSON(), _.extend(opts, {
           success: function(resp) {
-            cb.success({
+            cb.success(_.extend({
               _id: resp.id,
               _rev: resp.rev
-            });
+            }, resp.doc));
           },
           error: cb.error
         }));
@@ -11085,6 +11085,8 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
     $.couch.urlPrefix = old_prefix;
     return ret
   };
+
+  Backbone.couch.sync = couch.sync;
 
   Backbone.couch.Model = Backbone.Model.extend({
     sync: couch.sync,
@@ -12813,7 +12815,7 @@ Handlebars.VM = {
 Handlebars.compile = Handlebars.VM.compile;;
 
 (function() {
-  var Article, ArticleList, ArticleView, Articles, BaseView;
+  var App, Article, ArticleList, ArticleView, Articles, BaseContainer, BaseView, Channel, ChannelList, ChannelView, Channels;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -12835,7 +12837,7 @@ Handlebars.compile = Handlebars.VM.compile;;
   })();
   ArticleList = (function() {
     function ArticleList() {
-      ArticleList.__super__.constructor.apply(this, arguments);
+      this.couch = __bind(this.couch, this);;      ArticleList.__super__.constructor.apply(this, arguments);
     }
     __extends(ArticleList, Backbone.couch.Collection);
     ArticleList.prototype.model = Article;
@@ -12845,10 +12847,42 @@ Handlebars.compile = Handlebars.VM.compile;;
       return {
         view: 'grizzly/type',
         key: 'article',
+        filter: {
+          filter: 'grizzly/article',
+          channel: this.id
+        },
         include_docs: true
       };
     };
     return ArticleList;
+  })();
+  Channel = (function() {
+    function Channel() {
+      Channel.__super__.constructor.apply(this, arguments);
+    }
+    __extends(Channel, Backbone.couch.Model);
+    Channel.prototype._db = Backbone.couch.db('backbone');
+    Channel.prototype.defaults = {
+      type: 'channel'
+    };
+    return Channel;
+  })();
+  ChannelList = (function() {
+    function ChannelList() {
+      ChannelList.__super__.constructor.apply(this, arguments);
+    }
+    __extends(ChannelList, Backbone.couch.Collection);
+    ChannelList.prototype.model = Channel;
+    ChannelList.prototype._db = Backbone.couch.db('backbone');
+    ChannelList.prototype.change_feed = true;
+    ChannelList.prototype.couch = function() {
+      return {
+        view: 'grizzly/type',
+        key: 'channel',
+        include_docs: true
+      };
+    };
+    return ChannelList;
   })();
   BaseView = (function() {
     function BaseView() {
@@ -12919,43 +12953,88 @@ Handlebars.compile = Handlebars.VM.compile;;
     };
     return ArticleView;
   })();
-  Articles = (function() {
-    function Articles() {
+  BaseContainer = (function() {
+    function BaseContainer() {
       this.create_article = __bind(this.create_article, this);;
       this.add = __bind(this.add, this);;
-      this.refresh = __bind(this.refresh, this);;      Articles.__super__.constructor.apply(this, arguments);
+      this.refresh = __bind(this.refresh, this);;      BaseContainer.__super__.constructor.apply(this, arguments);
     }
-    __extends(Articles, Backbone.View);
-    Articles.prototype.el = $("#main");
-    Articles.prototype.events = {
+    __extends(BaseContainer, BaseView);
+    BaseContainer.prototype.events = {
       "click .create": "create_article"
     };
-    Articles.prototype.initialize = function() {
-      this.col = new ArticleList;
+    BaseContainer.prototype.initialize = function() {
+      this.col = new this.collection;
       this.col.bind('refresh', this.refresh);
       this.col.bind('add', this.add);
       return this.col.fetch();
     };
-    Articles.prototype.refresh = function() {
+    BaseContainer.prototype.refresh = function() {
       return this.col.each(this.add);
     };
-    Articles.prototype.add = function(model) {
+    BaseContainer.prototype.add = function(model) {
       var view;
-      view = new ArticleView({
+      view = new this.item_view({
         model: model
       });
       return this.$("ul").append(view.render().el);
     };
-    Articles.prototype.create_article = function() {
+    BaseContainer.prototype.create_article = function() {
       var model;
-      model = new Article({
-        body: this.$("textarea").val()
+      model = new this.col.model({
+        body: this.$(this.input).val()
       });
       model.save();
       return this.col.add(model);
     };
+    return BaseContainer;
+  })();
+  Articles = (function() {
+    function Articles() {
+      Articles.__super__.constructor.apply(this, arguments);
+    }
+    __extends(Articles, BaseContainer);
+    Articles.prototype.template = "article_list";
+    Articles.prototype.collection = ArticleList;
+    Articles.prototype.item_view = ArticleView;
+    Articles.prototype.input = "textarea";
     return Articles;
   })();
-  new Articles;
+  ChannelView = (function() {
+    function ChannelView() {
+      ChannelView.__super__.constructor.apply(this, arguments);
+    }
+    __extends(ChannelView, BaseView);
+    ChannelView.prototype.tagName = "li";
+    ChannelView.prototype.className = "display";
+    ChannelView.prototype.template = "channel";
+    return ChannelView;
+  })();
+  Channels = (function() {
+    function Channels() {
+      Channels.__super__.constructor.apply(this, arguments);
+    }
+    __extends(Channels, BaseContainer);
+    Channels.prototype.template = "channel_list";
+    Channels.prototype.collection = ChannelList;
+    Channels.prototype.item_view = ChannelView;
+    Channels.prototype.input = "input[type=text]";
+    return Channels;
+  })();
+  App = (function() {
+    function App() {
+      App.__super__.constructor.apply(this, arguments);
+    }
+    __extends(App, Backbone.View);
+    App.prototype.el = $("#main");
+    App.prototype.initialize = function() {
+      this.$(".channels").html((new Channels).render().el);
+      return this.$(".articles").html((new Articles).render().el);
+    };
+    return App;
+  })();
+  $(document).ready(function() {
+    return new App;
+  });
 }).call(this);
 
