@@ -86,6 +86,21 @@ the handler you'd like to use to the return value of couch():
         }
     })
 
+## Show handlers
+
+If you'd like all the `read` calls to use a `_show` instead of the normal couch
+return for `GET` on documents. Like update handlers, you can just add the
+handler you'd like to use to the return value of `couch()`:
+
+    Backbone.couch.Collection.extend({
+        couch: function() {
+            return {
+                view: 'design/my_view',
+                show: 'design/my_show'
+            }
+        }
+    })
+
 # TODOs
 
 - Take some time to explain a little more of why this is useful.
