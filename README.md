@@ -101,6 +101,24 @@ handler you'd like to use to the return value of `couch()`:
         }
     })
 
+## List handlers
+
+If you'd like your collections to use a `_list` instead of a `_view`, you can
+add the handler to `couch()`:
+
+    Backbone.couch.Collection.extend({
+        couch: function() {
+            return {
+                view: 'design/my_view',
+                list: 'design/my_list'
+            }
+        }
+    })
+
+Note that this will create an URL that looks like:
+
+    http://localhost:5984/mydb/_design/design/_list/my_list/my_view
+
 # TODOs
 
 - Take some time to explain a little more of why this is useful.
