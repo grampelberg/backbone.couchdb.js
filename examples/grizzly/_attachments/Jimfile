@@ -5,7 +5,7 @@
   "bundles": {
     "default": [
       "sha1",
-      [ "jquery", "1.5" ],
+      [ "jquery", "1.7.2" ],
       "jquery.couch",
       [ "underscore", "1.1.5"],
       "backbone",
